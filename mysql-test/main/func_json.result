@@ -5764,4 +5764,17 @@ NULL	NULL	NULL	NULL	NULL	NULL	NULL	NULL
 {"key": "value", "key2": "value2"}	1	0	0	1	0	1	1
 {"key": "value", "key": "value2"}	1	0	0	1	0	0	1
 DROP TABLE test_default_json;
+
+SELECT json_extract(t.j, '$')
+FROM (SELECT json_extract('["a",1]', '$') AS j) AS t;
+json_extract(t.j, '$')
+["a", 1]
+SELECT json_extract(t.j, '$[0]')
+FROM (SELECT json_extract('["a",1]', '$') AS j) AS t;
+json_extract(t.j, '$[0]')
+"a"
+SELECT json_extract(t.j, '$')
+FROM (SELECT json_extract('{"key":"value"}', '$') AS j) AS t;
+json_extract(t.j, '$')
+{"key": "value"}
 # End of 12.3

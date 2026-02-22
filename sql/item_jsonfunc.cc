@@ -1139,7 +1139,12 @@ bool Item_json_str_multipath::fix_length_and_dec(THD *thd)
 bool Item_func_json_extract::fix_length_and_dec(THD *thd)
 {
   collation.set(args[0]->collation);
-  max_length= args[0]->max_length * (arg_count - 1);
+  /*
+    json_extract() passes its result through json_nice() with LOOSE format,
+    which can expand the output (e.g. adding spaces after commas and colons).
+    Multiply by 2 to account for this, matching JSON_FORMAT(LOOSE) behavior.
+  */
+  max_length= args[0]->max_length * (arg_count - 1) * 2;
 
   mark_constant_paths(paths, args+1, arg_count-1);
   set_maybe_null();

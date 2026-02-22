@@ -4489,4 +4489,13 @@ FROM test_default_json;
 
 DROP TABLE test_default_json;
 
+SELECT json_extract(t.j, '$')
+FROM (SELECT json_extract('["a",1]', '$') AS j) AS t;
+
+SELECT json_extract(t.j, '$[0]')
+FROM (SELECT json_extract('["a",1]', '$') AS j) AS t;
+
+SELECT json_extract(t.j, '$')
+FROM (SELECT json_extract('{"key":"value"}', '$') AS j) AS t;
+
 --echo # End of 12.3
